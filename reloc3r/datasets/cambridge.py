@@ -13,7 +13,7 @@ import imagesize
 from reloc3r.image_retrieval.topk_retrieval import PREPROCESS_FOLDER, DB_DESCS_FILE_MASK, PAIR_INFO_FILE_MASK
 
 
-DATA_ROOT = './data/Cambridge'
+DATA_ROOT = './data/cambridge'
 
 
 def label_to_str(label):

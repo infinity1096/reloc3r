@@ -4,7 +4,7 @@ from reloc3r.utils.image import imread_cv2, cv2
 # from pdb import set_trace as bb
 
 
-DATA_ROOT = './data/scannet_efficientloftr' 
+DATA_ROOT = './data/scannet1500' 
 
 
 def label_to_str(label):

@@ -7,7 +7,7 @@ import os
 # from tqdm import tqdm
 
 
-DATA_ROOT = './data/Cambridge'
+DATA_ROOT = './data/cambridge'
 
 
 stat_Cambridge = {

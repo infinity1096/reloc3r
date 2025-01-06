@@ -1,11 +1,3 @@
-<!-- # Reloc3r: Large-Scale Training of Relative Camera Pose Regression for Generalizable, Fast, and Accurate Visual Localization
-
-[Siyan Dong](https://siyandong.github.io/)\*, [Shuzhe Wang](https://ffrivera0.github.io/)\*, [Shaohui Liu](http://b1ueber2y.me/), Lulu Cai, [Qingnan Fan](https://fqnchina.github.io/), [Juho Kannala](https://users.aalto.fi/~kannalj1/), [Yanchao Yang](https://yanchaoyang.github.io/)
-
-Paper: [arXiv](https://arxiv.org/abs/2412.08376)
-
-TL;DR: A general camera pose estimation framework that combines a pre-trained two-view relative camera pose regression network with a multi-view motion averaging module. -->
-
 <p align="center">
   <h2 align="center">Reloc3r: Large-Scale Training of Relative Camera Pose Regression for Generalizable, Fast, and Accurate Visual Localization</h2>
  <p align="center">
@@ -90,7 +82,7 @@ python setup.py build_ext --inplace
 cd ../../../
 ```
 
-4. Download the Reloc3r checkpoints [here](https://drive.google.com/file/d/19M8D3laoYdziqpmVfk6nckEWGgWAWNFY/view?usp=sharing), and place them under `./checkpoints/`. 
+4. Download the Reloc3r-224/512 checkpoints [here](https://drive.google.com/drive/folders/12C5NxU3ooayGPPJgsINmJNnOmIAxYe7h?usp=sharing), and place them under `./checkpoints/`. 
 
 
 ## Relative Pose Estimation on ScanNet1500

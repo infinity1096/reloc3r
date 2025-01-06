@@ -24,6 +24,7 @@ def get_args_parser():
         default='Reloc3rRelpose(img_size=512)')
     parser.add_argument('--ckpt', type=str, 
         default='./checkpoints/Reloc3r-512.pth')
+    parser.add_argument('--resolution', default=(512,384))  # by default (512,384) for Reloc3r-512
 
     # test set: process the database
     parser.add_argument('--dataset_db', type=str, 
@@ -40,7 +41,7 @@ def get_args_parser():
 
     # test set: relpose
     parser.add_argument('--dataset_relpose', type=str, 
-        default="CambridgeRelpose(scene='{}', pair_id={}, resolution=(512,384), seed=777)")
+        default="CambridgeRelpose(scene='{}', pair_id={}, resolution={}, seed=777)")
     parser.add_argument('--batch_size', type=int,
         default=10)
     parser.add_argument('--num_workers', type=int,
@@ -87,7 +88,7 @@ def test(args):
     args.relative_pose_available = False
     if not args.relative_pose_available:
         reloc3r_relpose = setup_reloc3r_relpose_model(args.model, args.ckpt, device)
-        data_loader_test = {'{} pair_id={}'.format(args.dataset_relpose.split('(')[0], pair_id): build_dataset(args.dataset_relpose.format(args.scene, pair_id), args.batch_size, args.num_workers, test=True)
+        data_loader_test = {'{} pair_id={}'.format(args.dataset_relpose.split('(')[0], pair_id): build_dataset(args.dataset_relpose.format(args.scene, pair_id, args.resolution), args.batch_size, args.num_workers, test=True)
                             for pair_id in range(args.topk)}
         for test_name, testset in data_loader_test.items():
             print('Testing {:s}'.format(test_name))

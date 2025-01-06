@@ -41,6 +41,13 @@ def setup_reloc3r_relpose_model(model, ckpt, device):
     reloc3r_relpose = eval(model)
     reloc3r_relpose.to(device)
     print('Loading checkpoint: {:s}'.format(ckpt))
+    if not os.path.exists(ckpt):
+        from huggingface_hub import hf_hub_download
+        print('Downloading checkpoint from HF...')
+        if '512' in ckpt:
+            hf_hub_download(repo_id='siyan824/reloc3r-512', filename='Reloc3r-512.pth', local_dir='./checkpoints')
+        elif '224' in ckpt:
+            hf_hub_download(repo_id='siyan824/reloc3r-224', filename='Reloc3r-224.pth', local_dir='./checkpoints')
     checkpoint = torch.load(ckpt, map_location=device)
     reloc3r_relpose.load_state_dict(checkpoint['model'], strict=False) 
     reloc3r_relpose.eval()

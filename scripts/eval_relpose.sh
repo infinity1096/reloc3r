@@ -3,3 +3,9 @@ CUDA_VISIBLE_DEVICES=0 python eval_relpose.py \
     --ckpt "checkpoints/Reloc3r-512.pth" \
     --test_dataset "ScanNet1500(resolution=(512,384), seed=777)" \
 
+
+# CUDA_VISIBLE_DEVICES=0 python eval_relpose.py \
+#     --model "Reloc3rRelpose(img_size=224)" \
+#     --ckpt "checkpoints/Reloc3r-224.pth" \
+#     --test_dataset "ScanNet1500(resolution=(224,224), seed=777)" \
+

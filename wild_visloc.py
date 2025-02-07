@@ -8,7 +8,7 @@ from reloc3r.utils.device import to_numpy
 from tqdm import tqdm
 
 
-def wild_visloc(ckpt, video_path, output_folder=None, max_frames=30, mode='seq'):
+def wild_visloc(ckpt, video_path, output_folder=None, max_frames=30, mode='seq', use_amp = False):
     if output_folder is None:
         output_folder = video_path[0:video_path.rfind('/')]
     name = video_path[video_path.rfind('/')+1:video_path.rfind('.')]
@@ -34,7 +34,7 @@ def wild_visloc(ckpt, video_path, output_folder=None, max_frames=30, mode='seq')
     # setup a batabase with the first and the last frames
     print('Building database...')
     batch = [images[0], images[-1]]
-    pose2to1 = to_numpy(inference_relpose(batch, reloc3r_relpose, device)[0])
+    pose2to1 = to_numpy(inference_relpose(batch, reloc3r_relpose, device, use_amp = use_amp)[0])
     pose2to1[0:3,3] = pose2to1[0:3,3] / np.linalg.norm(pose2to1[0:3,3])  # normalize the scale to 1 meter
     pose_beg = np.identity(4)
     pose_end = pose_beg @ pose2to1
@@ -90,7 +90,9 @@ if __name__ == '__main__':
     parser.add_argument('--video_path', type=str, default='data/wild_video/0.mp4')
     parser.add_argument('--output_folder', type=str, default='data/wild_video/')
     parser.add_argument('--mode', type=str, default='seq')
+    parser.add_argument('--amp', type=int, default=0,
+                            choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
     args = parser.parse_args()
 
-    wild_visloc(ckpt=args.ckpt, video_path=args.video_path, output_folder=args.output_folder, mode=args.mode)
+    wild_visloc(ckpt=args.ckpt, video_path=args.video_path, output_folder=args.output_folder, mode=args.mode, use_amp = args.amp)
 

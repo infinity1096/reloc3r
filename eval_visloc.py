@@ -49,6 +49,8 @@ def get_args_parser():
 
     parser.add_argument('--scene', type=str, 
         default='KingsCollege')  
+    parser.add_argument('--amp', type=int, default=1,
+                            choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
 
     # parser.add_argument('--output_dir', type=str, 
     #     default='./output', help='path where to save the output') 
@@ -97,7 +99,7 @@ def test(args):
                 os.mkdir(pose_folder)
             with torch.no_grad():
                 for batch in tqdm(testset):
-                    pose = inference_relpose(batch, reloc3r_relpose, device)
+                    pose = inference_relpose(batch, reloc3r_relpose, device, use_amp=args.amp)
                     view1, view2 = batch
                     for sid in range(len(pose)):
                         Rt = np.identity(4)

@@ -41,7 +41,6 @@ Trained on approximately 8 million posed image pairs, <strong>Reloc3r</strong> a
 </p>
 <be>
 
-
 ## TODO List
 
 - [x] Release pre-trained weights and inference code. 
@@ -92,6 +91,7 @@ Then run the following script. You will obtain results similar to those presente
 ```bash
 bash scripts/eval_relpose.sh
 ```
+<strong>Note:</strong> To achieve faster inference speed, set `--amp=1`. This enables evaluation with `fp16`, which increases speed from <strong>24 FPS</strong> to <strong>40 FPS</strong> on an RTX 4090 with Reloc3r-512, without any accuracy loss.
 
 
 ## Visual Localization on Cambridge

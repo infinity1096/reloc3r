@@ -183,7 +183,7 @@ def load_model(ckpt_path, img_size, device):
 
 
 @torch.no_grad()
-def inference_relpose(batch, model, device): 
+def inference_relpose(batch, model, device, use_amp=False): 
     # to device. 
     for view in batch:
         for name in 'img camera_intrinsics camera_pose'.split():  
@@ -192,7 +192,8 @@ def inference_relpose(batch, model, device):
             view[name] = view[name].to(device, non_blocking=True)
     # forward. 
     view1, view2 = batch
-    _, pose2 = model(view1, view2)
+    with torch.cuda.amp.autocast(enabled=bool(use_amp)):
+        _, pose2 = model(view1, view2)
     pose2to1 = pose2["pose"]
     return pose2to1
 

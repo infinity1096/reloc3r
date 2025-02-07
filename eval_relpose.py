@@ -29,6 +29,8 @@ def get_args_parser():
         default=1)
     parser.add_argument('--num_workers', type=int,
         default=10)
+    parser.add_argument('--amp', type=int, default=1,
+                                choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
 
     # parser.add_argument('--output_dir', type=str, 
     #     default='./output', help='path where to save the pose errors')
@@ -87,7 +89,7 @@ def test(args):
         with torch.no_grad():
             for batch in tqdm(testset):
 
-                pose = inference_relpose(batch, reloc3r_relpose, device)
+                pose = inference_relpose(batch, reloc3r_relpose, device, use_amp=bool(args.amp))
 
                 view1, view2 = batch
                 gt_pose2to1 = torch.inverse(view1['camera_pose']) @ view2['camera_pose']

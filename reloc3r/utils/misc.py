@@ -56,6 +56,11 @@ def transpose_to_landscape(head, activate=True):
 
     return wrapper_yes if activate else wrapper_no
 
+def transposed(dic):
+    if 'pose' in dic.keys():
+        return dic 
+    return {k: v.swapaxes(1, 2) for k, v in dic.items()}
+
 
 # def invalid_to_nans(arr, valid_mask, ndim=999):
 #     if valid_mask is not None:

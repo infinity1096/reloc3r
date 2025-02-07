@@ -2,6 +2,7 @@
 from .utils.transforms import *
 from .base.batched_sampler import BatchedRandomSampler  # noqa: F401
 from .scannet1500 import ScanNet1500
+from .megadepth_valid import MegaDepth_valid
 # from .cambridge_retrieval import *
 from .cambridge import CambridgeRelpose
 

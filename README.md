@@ -45,7 +45,7 @@ Trained on approximately 8 million posed image pairs, <strong>Reloc3r</strong> a
 ## TODO List
 
 - [x] Release pre-trained weights and inference code. 
-- [x] Release evaluation code for ScanNet1500 and Cambridge datasets. 
+- [x] Release evaluation code for ScanNet1500, MegaDepth1500 and Cambridge datasets. 
 - [x] Release demo code for wild images and videos. 
 - [ ] Release evaluation code for other datasets. 
 - [ ] Release the accelerated version for visual localization. 
@@ -85,9 +85,9 @@ cd ../../../
 4. Download the Reloc3r-224/512 checkpoints [here](https://drive.google.com/drive/folders/12C5NxU3ooayGPPJgsINmJNnOmIAxYe7h?usp=sharing), and place them under `./checkpoints/`. 
 
 
-## Relative Pose Estimation on ScanNet1500
+## Relative Pose Estimation on ScanNet1500 and MegaDepth1500
 
-Download the dataset [here](https://drive.google.com/drive/folders/1hmovkA4MuFevM1mfhjC21MVe9ElaMnWN?usp=sharing) and unzip it to `./data/scannet1500/`.
+Download the datasets [here](https://drive.google.com/drive/folders/16g--OfRHb26bT6DvOlj3xhwsb1kV58fT?usp=sharing) and unzip it to `./data/`.
 Then run the following script. You will obtain results similar to those presented in our paper.
 ```bash
 bash scripts/eval_relpose.sh

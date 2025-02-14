@@ -81,7 +81,7 @@ python setup.py build_ext --inplace
 cd ../../../
 ```
 
-4. Download the Reloc3r-224/512 checkpoints [here](https://drive.google.com/drive/folders/12C5NxU3ooayGPPJgsINmJNnOmIAxYe7h?usp=sharing), and place them under `./checkpoints/`. 
+4. Download the Reloc3r-224/512 checkpoints from [Google Drive](https://drive.google.com/drive/folders/12C5NxU3ooayGPPJgsINmJNnOmIAxYe7h?usp=sharing) or Hugging Face [Reloc3r-224](https://huggingface.co/siyan824/reloc3r-224) [Reloc3r-512](https://huggingface.co/siyan824/reloc3r-512), and place them under `./checkpoints/`. 
 
 
 ## Relative Pose Estimation on ScanNet1500 and MegaDepth1500

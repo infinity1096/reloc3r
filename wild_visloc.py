@@ -17,18 +17,22 @@ def wild_visloc(ckpt, video_path, output_folder=None, max_frames=30, mode='seq',
     for folder in [image_folder, pose_folder]:
         if not os.path.exists(folder):
             os.mkdir(folder)
+    if '224' in ckpt:
+        img_size = 224
+    elif '512' in ckpt:
+        img_size = 512
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
 
     # load Reloc3r
     print('Loading Reloc3r...')
-    reloc3r_relpose = load_model(ckpt_path=ckpt, img_size=512, device=device)
+    reloc3r_relpose = load_model(ckpt_path=ckpt, device=device)
     reloc3r_visloc = Reloc3rVisloc()
 
     # load sampled images from video
     print('Loading images from the input video...')
     parse_video(video_path, image_folder, max_frames=max_frames)
-    images = load_images(image_folder, size=512)
+    images = load_images(image_folder, size=img_size)
     images = check_images_shape_format(images, device)
 
     # setup a batabase with the first and the last frames
@@ -81,17 +85,15 @@ def wild_visloc(ckpt, video_path, output_folder=None, max_frames=30, mode='seq',
     print('Poses saved to {}'.format(pose_folder))
 
 
-
-
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='infer absolute poses from video')
+    # parser.add_argument('--ckpt', type=str, default='checkpoints/Reloc3r-224.pth')
     parser.add_argument('--ckpt', type=str, default='checkpoints/Reloc3r-512.pth')
     parser.add_argument('--video_path', type=str, default='data/wild_video/0.mp4')
     parser.add_argument('--output_folder', type=str, default='data/wild_video/')
     parser.add_argument('--mode', type=str, default='seq')
-    parser.add_argument('--amp', type=int, default=0,
-                            choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
+    parser.add_argument('--amp', type=int, default=0, choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
     args = parser.parse_args()
 
     wild_visloc(ckpt=args.ckpt, video_path=args.video_path, output_folder=args.output_folder, mode=args.mode, use_amp = args.amp)

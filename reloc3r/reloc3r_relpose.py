@@ -85,16 +85,7 @@ class Reloc3rRelpose(nn.Module):
         freeze_all_params([self.patch_embed, self.enc_blocks])
 
     def load_state_dict(self, ckpt, **kw):
-        new_ckpt = dict(ckpt)
-        if any(k.startswith('dec_blocks2') for k in ckpt):
-            for key, value in ckpt.items():
-                if key.startswith('dec_blocks2'):
-                    new_ckpt[key.replace('dec_blocks2', 'dec_blocks')] = value
-        if any(k.startswith('head4') for k in ckpt):
-            for key, value in ckpt.items():
-                if key.startswith('head4'):
-                    new_ckpt[key.replace('head4', 'head')] = value
-        return super().load_state_dict(new_ckpt, **kw)
+        return super().load_state_dict(ckpt, **kw)
 
     def _encode_image(self, image, true_shape):
         # embed the image into patches  (x has size B x Npatches x C)
@@ -171,13 +162,24 @@ class Reloc3rRelpose(nn.Module):
         return pose1, pose2
 
 
-def load_model(ckpt_path, img_size, device):
+def load_model(ckpt_path, device):
+    if '224' in ckpt_path:
+        img_size = 224
+    elif '512' in ckpt_path:
+        img_size = 512
     model = Reloc3rRelpose(img_size=img_size)
     model.to(device)
-    ckpt = torch.load(ckpt_path, map_location=device)
-    model.load_state_dict(ckpt['model'], strict=False)
+    if not os.path.exists(ckpt_path):
+        from huggingface_hub import hf_hub_download
+        print('Downloading checkpoint from HF...')
+        if '224' in ckpt_path:
+            hf_hub_download(repo_id='siyan824/reloc3r-224', filename='Reloc3r-224.pth', local_dir='./checkpoints')
+        elif '512' in ckpt_path:
+            hf_hub_download(repo_id='siyan824/reloc3r-512', filename='Reloc3r-512.pth', local_dir='./checkpoints')
+    checkpoint = torch.load(ckpt_path, map_location=device)
+    model.load_state_dict(checkpoint, strict=False)
     print('Model loaded from ', ckpt_path)
-    del ckpt  # in case it occupies memory.
+    del checkpoint  # in case it occupies memory.
     model.eval()
     return model
 

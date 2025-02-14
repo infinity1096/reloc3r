@@ -11,16 +11,20 @@ def wild_relpose(ckpt, v1_path, v2_path, output_folder=None):
         output_folder = v1_path[0:v1_path.rfind('/')]
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
+    if '224' in ckpt:
+        img_size = 224
+    elif '512' in ckpt:
+        img_size = 512
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
 
     # load Reloc3r
     print('Loading Reloc3r...')
-    reloc3r_relpose = load_model(ckpt_path=ckpt, img_size=512, device=device)
+    reloc3r_relpose = load_model(ckpt_path=ckpt, device=device)
     
     # load images
     print('Loading images...')
-    images = load_images([v1_path, v2_path], size=512)
+    images = load_images([v1_path, v2_path], size=img_size)
     images = check_images_shape_format(images, device)
 
     # relpose
@@ -34,11 +38,10 @@ def wild_relpose(ckpt, v1_path, v2_path, output_folder=None):
     print('Pose saved to {}'.format(output_folder))
 
 
-
-
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='infer relative pose from wild images')
+    # parser.add_argument('--ckpt', type=str, default='checkpoints/Reloc3r-224.pth')
     parser.add_argument('--ckpt', type=str, default='checkpoints/Reloc3r-512.pth')
     parser.add_argument('--v1_path', type=str, default='data/wild_images/v1.png')
     parser.add_argument('--v2_path', type=str, default='data/wild_images/v2.png')

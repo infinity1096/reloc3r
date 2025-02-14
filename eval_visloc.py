@@ -21,10 +21,14 @@ def get_args_parser():
 
     # model
     parser.add_argument('--model', type=str, 
+        # default='Reloc3rRelpose(img_size=224)')
         default='Reloc3rRelpose(img_size=512)')
     parser.add_argument('--ckpt', type=str, 
+        # default='./checkpoints/Reloc3r-224.pth')
         default='./checkpoints/Reloc3r-512.pth')
-    parser.add_argument('--resolution', default=(512,384))  # by default (512,384) for Reloc3r-512
+    parser.add_argument('--resolution', 
+        # default=(224,224))  # by default (224,224) for Reloc3r-224
+        default=(512,384))  # by default (512,384) for Reloc3r-512
 
     # test set: process the database
     parser.add_argument('--dataset_db', type=str, 
@@ -49,8 +53,9 @@ def get_args_parser():
 
     parser.add_argument('--scene', type=str, 
         default='KingsCollege')  
-    parser.add_argument('--amp', type=int, default=1,
-                            choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
+    parser.add_argument('--amp', type=int, 
+        default=0,
+        choices=[0, 1], help="Use Automatic Mixed Precision for pretraining")
 
     # parser.add_argument('--output_dir', type=str, 
     #     default='./output', help='path where to save the output') 

@@ -18,12 +18,15 @@ def get_args_parser():
 
     # model
     parser.add_argument('--model', type=str, 
+        # default='Reloc3rRelpose(img_size=224)')
         default='Reloc3rRelpose(img_size=512)')
     parser.add_argument('--ckpt', type=str, 
+        # default='./checkpoints/Reloc3r-224.pth')
         default='./checkpoints/Reloc3r-512.pth')
     
     # test set
     parser.add_argument('--test_dataset', type=str, 
+        # default="ScanNet1500(resolution=(224,224), seed=777)")
         default="ScanNet1500(resolution=(512,384), seed=777)")
     parser.add_argument('--batch_size', type=int,
         default=1)
@@ -38,20 +41,21 @@ def get_args_parser():
     return parser
 
 
-def setup_reloc3r_relpose_model(model, ckpt, device):
+def setup_reloc3r_relpose_model(model, ckpt_path, device):
     print('Building model: {:s}'.format(model))
     reloc3r_relpose = eval(model)
     reloc3r_relpose.to(device)
-    print('Loading checkpoint: {:s}'.format(ckpt))
-    if not os.path.exists(ckpt):
+    if not os.path.exists(ckpt_path):
         from huggingface_hub import hf_hub_download
         print('Downloading checkpoint from HF...')
-        if '512' in ckpt:
-            hf_hub_download(repo_id='siyan824/reloc3r-512', filename='Reloc3r-512.pth', local_dir='./checkpoints')
-        elif '224' in ckpt:
+        if '224' in ckpt_path:
             hf_hub_download(repo_id='siyan824/reloc3r-224', filename='Reloc3r-224.pth', local_dir='./checkpoints')
-    checkpoint = torch.load(ckpt, map_location=device)
-    reloc3r_relpose.load_state_dict(checkpoint['model'], strict=False) 
+        elif '512' in ckpt_path:
+            hf_hub_download(repo_id='siyan824/reloc3r-512', filename='Reloc3r-512.pth', local_dir='./checkpoints')
+    checkpoint = torch.load(ckpt_path, map_location=device)
+    reloc3r_relpose.load_state_dict(checkpoint, strict=False) 
+    print('Model loaded from ', ckpt_path)
+    del checkpoint  # in case it occupies memory.
     reloc3r_relpose.eval()
     return reloc3r_relpose
 

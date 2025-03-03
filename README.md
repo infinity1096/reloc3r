@@ -1,5 +1,5 @@
 <p align="center">
-  <h2 align="center">Reloc3r: Large-Scale Training of Relative Camera Pose Regression for Generalizable, Fast, and Accurate Visual Localization</h2>
+  <h2 align="center">[CVPR 2025] Reloc3r: Large-Scale Training of Relative Camera Pose Regression for Generalizable, Fast, and Accurate Visual Localization</h2>
  <p align="center">
     <a href="https://siyandong.github.io/">Siyan Dong*</a>
     ·

@@ -11,12 +11,13 @@ from models.blocks import Block, DecoderBlock
 from reloc3r.pose_head import PoseHead
 from reloc3r.utils.misc import freeze_all_params, transpose_to_landscape
 from pdb import set_trace as bb
+from huggingface_hub import PyTorchModelHubMixin
 
 
 # parts of the code adapted from 
 # 'https://github.com/naver/croco/blob/743ee71a2a9bf57cea6832a9064a70a0597fcfcb/models/croco.py#L21'
 # 'https://github.com/naver/dust3r/blob/c9e9336a6ba7c1f1873f9295852cea6dffaf770d/dust3r/model.py#L46'
-class Reloc3rRelpose(nn.Module):
+class Reloc3rRelpose(nn.Module, PyTorchModelHubMixin):
     def __init__(self,
                  img_size=512,          # input image size
                  patch_size=16,         # patch_size 
@@ -162,26 +163,16 @@ class Reloc3rRelpose(nn.Module):
         return pose1, pose2
 
 
-def load_model(ckpt_path, device):
-    if '224' in ckpt_path:
-        img_size = 224
-    elif '512' in ckpt_path:
-        img_size = 512
-    model = Reloc3rRelpose(img_size=img_size)
-    model.to(device)
-    if not os.path.exists(ckpt_path):
-        from huggingface_hub import hf_hub_download
-        print('Downloading checkpoint from HF...')
-        if '224' in ckpt_path:
-            hf_hub_download(repo_id='siyan824/reloc3r-224', filename='Reloc3r-224.pth', local_dir='./checkpoints')
-        elif '512' in ckpt_path:
-            hf_hub_download(repo_id='siyan824/reloc3r-512', filename='Reloc3r-512.pth', local_dir='./checkpoints')
-    checkpoint = torch.load(ckpt_path, map_location=device)
-    model.load_state_dict(checkpoint, strict=False)
+def setup_reloc3r_relpose_model(model_args, device):
+    if '224' in model_args:
+        ckpt_path = 'siyan824/reloc3r-224'
+    elif '512' in model_args:
+        ckpt_path = 'siyan824/reloc3r-512'
+    reloc3r_relpose = Reloc3rRelpose.from_pretrained(ckpt_path)
+    reloc3r_relpose.to(device)
+    reloc3r_relpose.eval()
     print('Model loaded from ', ckpt_path)
-    del checkpoint  # in case it occupies memory.
-    model.eval()
-    return model
+    return reloc3r_relpose
 
 
 @torch.no_grad()

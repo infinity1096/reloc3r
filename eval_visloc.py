@@ -5,10 +5,10 @@ import torch
 torch.backends.cuda.matmul.allow_tf32 = True  # for gpu >= Ampere and pytorch >= 1.12
 
 from reloc3r.image_retrieval.topk_retrieval import TopkRetrieval, PREPROCESS_FOLDER, DB_DESCS_FILE_MASK, PAIR_INFO_FILE_MASK
-from reloc3r.reloc3r_relpose import Reloc3rRelpose, inference_relpose
+from reloc3r.reloc3r_relpose import Reloc3rRelpose, setup_reloc3r_relpose_model, inference_relpose
 from reloc3r.reloc3r_visloc import Reloc3rVisloc
 from reloc3r.datasets.cambridge_retrieval import *  
-from eval_relpose import setup_reloc3r_relpose_model, build_dataset
+from eval_relpose import build_dataset
 from reloc3r.utils.metric import *
 from reloc3r.utils.device import to_numpy
 
@@ -23,9 +23,6 @@ def get_args_parser():
     parser.add_argument('--model', type=str, 
         # default='Reloc3rRelpose(img_size=224)')
         default='Reloc3rRelpose(img_size=512)')
-    parser.add_argument('--ckpt', type=str, 
-        # default='./checkpoints/Reloc3r-224.pth')
-        default='./checkpoints/Reloc3r-512.pth')
     parser.add_argument('--resolution', 
         # default=(224,224))  # by default (224,224) for Reloc3r-224
         default=(512,384))  # by default (512,384) for Reloc3r-512
@@ -94,7 +91,7 @@ def test(args):
     # infer relative poses
     args.relative_pose_available = False
     if not args.relative_pose_available:
-        reloc3r_relpose = setup_reloc3r_relpose_model(args.model, args.ckpt, device)
+        reloc3r_relpose = setup_reloc3r_relpose_model(args.model, device)
         data_loader_test = {'{} pair_id={}'.format(args.dataset_relpose.split('(')[0], pair_id): build_dataset(args.dataset_relpose.format(args.scene, pair_id, args.resolution), args.batch_size, args.num_workers, test=True)
                             for pair_id in range(args.topk)}
         for test_name, testset in data_loader_test.items():

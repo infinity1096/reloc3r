@@ -4,7 +4,7 @@ import numpy as np
 import torch
 torch.backends.cuda.matmul.allow_tf32 = True  # for gpu >= Ampere and pytorch >= 1.12
 
-from reloc3r.reloc3r_relpose import Reloc3rRelpose, inference_relpose
+from reloc3r.reloc3r_relpose import Reloc3rRelpose, setup_reloc3r_relpose_model, inference_relpose
 from reloc3r.datasets import get_data_loader
 from reloc3r.utils.metric import *
 from reloc3r.utils.device import to_numpy
@@ -20,9 +20,6 @@ def get_args_parser():
     parser.add_argument('--model', type=str, 
         # default='Reloc3rRelpose(img_size=224)')
         default='Reloc3rRelpose(img_size=512)')
-    parser.add_argument('--ckpt', type=str, 
-        # default='./checkpoints/Reloc3r-224.pth')
-        default='./checkpoints/Reloc3r-512.pth')
     
     # test set
     parser.add_argument('--test_dataset', type=str, 
@@ -39,25 +36,6 @@ def get_args_parser():
     #     default='./output', help='path where to save the pose errors')
 
     return parser
-
-
-def setup_reloc3r_relpose_model(model, ckpt_path, device):
-    print('Building model: {:s}'.format(model))
-    reloc3r_relpose = eval(model)
-    reloc3r_relpose.to(device)
-    if not os.path.exists(ckpt_path):
-        from huggingface_hub import hf_hub_download
-        print('Downloading checkpoint from HF...')
-        if '224' in ckpt_path:
-            hf_hub_download(repo_id='siyan824/reloc3r-224', filename='Reloc3r-224.pth', local_dir='./checkpoints')
-        elif '512' in ckpt_path:
-            hf_hub_download(repo_id='siyan824/reloc3r-512', filename='Reloc3r-512.pth', local_dir='./checkpoints')
-    checkpoint = torch.load(ckpt_path, map_location=device)
-    reloc3r_relpose.load_state_dict(checkpoint, strict=False) 
-    print('Model loaded from ', ckpt_path)
-    del checkpoint  # in case it occupies memory.
-    reloc3r_relpose.eval()
-    return reloc3r_relpose
 
 
 def build_dataset(dataset, batch_size, num_workers, test=False):
@@ -81,7 +59,7 @@ def test(args):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
 
-    reloc3r_relpose = setup_reloc3r_relpose_model(args.model, args.ckpt, device)
+    reloc3r_relpose = setup_reloc3r_relpose_model(args.model, device)
     
     data_loader_test = {dataset.split('(')[0]: build_dataset(dataset, args.batch_size, args.num_workers, test=True)
                         for dataset in args.test_dataset.split('+')}

@@ -103,3 +103,30 @@ def rescale_image(image, camera_intrinsics, output_resolution):
 
     return image.to_pil(), camera_intrinsics
 
+def rescale_image_depthmap(image, depthmap, camera_intrinsics, output_resolution):
+    """ DUSt3R: Jointly rescale a (image, depthmap) 
+        so that (out_width, out_height) >= output_res
+    """
+    image = ImageList(image)
+    input_resolution = np.array(image.size)  # (W,H)
+    output_resolution = np.array(output_resolution)
+    if depthmap is not None:
+        # can also use this with masks instead of depthmaps
+        assert tuple(depthmap.shape[:2]) == image.size[::-1]
+    assert output_resolution.shape == (2,)
+    # define output resolution
+    scale_final = max(output_resolution / image.size) + 1e-8
+    output_resolution = np.floor(input_resolution * scale_final).astype(int)
+
+    # first rescale the image so that it contains the crop
+    image = image.resize(output_resolution, resample=lanczos)
+    if depthmap is not None:
+        depthmap = cv2.resize(depthmap, output_resolution, fx=scale_final,
+                              fy=scale_final, interpolation=cv2.INTER_NEAREST)
+
+    # no offset here; simple rescaling
+    camera_intrinsics = camera_matrix_of_crop(
+        camera_intrinsics, input_resolution, output_resolution, scaling=scale_final)
+
+    return image.to_pil(), depthmap, camera_intrinsics
+

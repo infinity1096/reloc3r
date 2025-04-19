@@ -1,6 +1,17 @@
 # code adapted from DUSt3R
 from .utils.transforms import *
 from .base.batched_sampler import BatchedRandomSampler  # noqa: F401
+
+# datasets for training
+from .co3d import Co3d
+from .scannetpp import ScanNetpp # noqa: F401
+from .arkitscenes import ARKitScenes
+from .blendedmvs import BlendedMVS
+from .megadepth import MegaDepth
+from .dl3dv import DL3DV
+from .realestate10k import RealEstate 
+
+# datasets for evaluation 
 from .scannet1500 import ScanNet1500
 from .megadepth_valid import MegaDepth_valid
 # from .cambridge_retrieval import *

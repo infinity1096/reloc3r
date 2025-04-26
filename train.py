@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Sized
 
 import torch
-# torch.autograd.detect_anomaly(True)
 import torch.backends.cudnn as cudnn
 from torch.utils.tensorboard import SummaryWriter
 torch.backends.cuda.matmul.allow_tf32 = True  # for gpu >= Ampere and pytorch >= 1.12
@@ -171,7 +170,6 @@ def main(args):
 
     if args.freeze_encoder:
         model_without_ddp.freeze_encoder() 
-        # input('freeze encoder')
     
     # following timm: set wd as 0 for bias and norm layers
     param_groups = misc.get_parameter_groups(model_without_ddp, args.weight_decay)
@@ -252,7 +250,22 @@ def main(args):
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     print('Training time {}'.format(total_time_str))
 
+
     save_final_model(args, args.epochs, model_without_ddp, best_so_far=best_so_far)
+
+
+def save_final_model(args, epoch, model_without_ddp, best_so_far=None):
+    output_dir = Path(args.output_dir)
+    checkpoint_path = output_dir / 'checkpoint-final.pth'
+    to_save = {
+        'args': args,
+        'model': model_without_ddp if isinstance(model_without_ddp, dict) else model_without_ddp.cpu().state_dict(),
+        'epoch': epoch
+    }
+    if best_so_far is not None:
+        to_save['best_so_far'] = best_so_far
+    print(f'>> Saving model to {checkpoint_path} ...')
+    misc.save_on_master(to_save, checkpoint_path)
 
 
 def build_dataset(dataset, batch_size, num_workers, test=False):

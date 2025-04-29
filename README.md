@@ -57,12 +57,13 @@ Trained on approximately 8 million posed image pairs, <strong>Reloc3r</strong> a
 ## TODO List
 
 - [x] Release pre-trained weights and inference code. 
-- [x] Release evaluation code for ScanNet1500, MegaDepth1500 and Cambridge datasets. 
+- [x] Release evaluation code for ScanNet1500 and MegaDepth1500 datasets. 
+- [x] Release evaluation code for 7Scenes and Cambridge datasets. 
 - [x] Release sample code for self-captured images and videos.
 - [x] Release training code and data.
-- [ ] Release evaluation code for other datasets. 
-- [ ] Release the accelerated version for visual localization. 
-- [ ] Release Gradio Demo.  
+- [ ] Evaluation code for other datasets. 
+- [ ] Accelerated version for visual localization. 
+- [ ] Gradio demo.  
 
 
 ## Installation
@@ -133,10 +134,16 @@ python visualization.py --mode visloc --pose_folder ./data/wild_video/ids_poses/
 
 ## Evaluation on Relative Camera Pose Estimation 
 
-To reproduce our evaluation on ScanNet1500 and MegaDepth1500, download the datasets [here](https://drive.google.com/drive/folders/16g--OfRHb26bT6DvOlj3xhwsb1kV58fT?usp=sharing) and unzip it to `./data/`.
-Then run the following script. You will obtain results similar to those presented in our paper.
+To reproduce our evaluation on ScanNet1500, download the dataset [here](https://drive.google.com/drive/folders/16g--OfRHb26bT6DvOlj3xhwsb1kV58fT?usp=sharing) and unzip it to `./data/scannet1500`.
+Then run the following script. 
 ```bash
-bash scripts/eval_relpose.sh
+bash scripts/eval_scannet1500.sh
+```
+
+To reproduce our evaluation on MegaDepth1500, download the dataset [here](https://drive.google.com/drive/folders/16g--OfRHb26bT6DvOlj3xhwsb1kV58fT?usp=sharing) and unzip it to `./data/megadepth1500`.
+Then run the following script. 
+```bash
+bash scripts/eval_megadepth1500.sh
 ```
 
 > [!NOTE]
@@ -145,10 +152,16 @@ bash scripts/eval_relpose.sh
 
 ## Evaluation on Visual Localization 
 
-To reproduce our evaluation on Cambridge, download the dataset [here](https://drive.google.com/file/d/1XcJIVRMma4_IClJdRq6rwBKX3ZPet5az/view?usp=sharing) and unzip it to `./data/cambridge/`.
-Then run the following script. You will obtain results similar to those presented in our paper.
+To reproduce our evaluation on 7Scenes, download the dataset [here](https://www.microsoft.com/en-us/research/project/rgb-d-dataset-7-scenes/) and unzip it to `./data/7scenes`.
+Then run the following script. 
 ```bash
-bash scripts/eval_visloc.sh
+bash scripts/eval_7scenes.sh
+```
+
+To reproduce our evaluation on Cambridge, download the dataset [here](https://drive.google.com/file/d/1XcJIVRMma4_IClJdRq6rwBKX3ZPet5az/view?usp=sharing) and unzip it to `./data/cambridge`.
+Then run the following script. 
+```bash
+bash scripts/eval_cambridge.sh
 ```
 
 

@@ -16,6 +16,7 @@ from .scannet1500 import ScanNet1500
 from .megadepth_valid import MegaDepth_valid
 # from .cambridge_retrieval import *
 from .cambridge import CambridgeRelpose
+from .sevenscenes import SevenScenesRelpose
 
 
 def get_data_loader(dataset, batch_size, num_workers=8, shuffle=True, drop_last=True, pin_mem=True):

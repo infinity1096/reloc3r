@@ -49,9 +49,9 @@ stat_Cambridge = {
         }
     },
 }
-mask_gt_db_cam = 'seq{}_frame{:05d}_pose-db.txt'
-mask_q2d_cam = 'seq{}_frame{:05d}_pose-q2d.txt'
-mask_gt_q_cam = 'seq{}_frame{:05d}_pose-gt.txt'
+mask_gt_db_cam_Cambridge = 'seq{}_frame{:05d}_pose-db.txt'
+mask_q2d_cam_Cambridge = 'seq{}_frame{:05d}_pose-q2d.txt'
+mask_gt_q_cam_Cambridge = 'seq{}_frame{:05d}_pose-gt.txt'
 
 
 def read_frames_of_the_split(file_path): 

@@ -15,7 +15,7 @@
     ·
     <a href="https://yanchaoyang.github.io/">Yanchao Yang</a>
   </p>
-  <h3 align="center"><a href="https://arxiv.org/abs/2412.08376">Paper</a> | <a href="">Online Demo (Coming Soon)</a> </h3>
+  <h3 align="center"><a href="https://arxiv.org/abs/2412.08376">Paper</a> | <a href="https://www.youtube.com/watch?v=uHcEZRPOE5s">Video</a> | <a href="https://drive.google.com/file/d/1-siUbcn0N3jdr1IjJ4BBxKLSOafPDCFP/view?usp=drive_link">Poster</a> </h3>
   <div align="center"></div>
 </p>
 
@@ -200,10 +200,5 @@ If you find our work helpful in your research, please consider citing:
 
 ## Acknowledgments
 
-Our implementation is based on several awesome repositories:
-
-- [Croco](https://github.com/naver/croco)
-- [DUSt3R](https://github.com/naver/dust3r)
-
-We thank the respective authors for open-sourcing their code.
+Thanks to these great repositories: [Croco](https://github.com/naver/croco), [DUSt3R](https://github.com/naver/dust3r), [Marepo](https://github.com/nianticlabs/marepo), and many other inspiring works in the community.
 

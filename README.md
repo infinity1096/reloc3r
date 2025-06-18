@@ -15,7 +15,7 @@
     ·
     <a href="https://yanchaoyang.github.io/">Yanchao Yang</a>
   </p>
-  <h3 align="center"><a href="https://arxiv.org/abs/2412.08376">Paper</a> | <a href="https://www.youtube.com/watch?v=uHcEZRPOE5s">Video</a> | <a href="https://drive.google.com/file/d/1-siUbcn0N3jdr1IjJ4BBxKLSOafPDCFP/view?usp=drive_link">Poster</a> </h3>
+  <h3 align="center"><a href="https://arxiv.org/abs/2412.08376">Paper</a> | <a href="https://www.youtube.com/watch?v=uHcEZRPOE5s">Video</a> | <a href="https://drive.google.com/file/d/1-siUbcn0N3jdr1IjJ4BBxKLSOafPDCFP/view?usp=drive_link">Poster</a> | <a href="https://huggingface.co/spaces/siyan824/reloc3r-512_relpose">Demo (Online)</a> </h3>
   <div align="center"></div>
 </p>
 
@@ -61,9 +61,9 @@ Trained on approximately 8 million posed image pairs, <strong>Reloc3r</strong> a
 - [x] Release evaluation code for 7Scenes and Cambridge datasets. 
 - [x] Release sample code for self-captured images and videos.
 - [x] Release training code and data.
+- [x] Gradio demo for relative camera pose regression, and its visualization.  
 - [ ] Evaluation code for other datasets. 
 - [ ] Accelerated version for visual localization. 
-- [ ] Gradio demo.  
 
 
 ## Installation

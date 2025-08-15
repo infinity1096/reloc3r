@@ -55,9 +55,10 @@ mask_gt_q_cam_7Scenes = 'seq-{:02d}_{:06d}_pose-gt.txt'
 class SevenScenesRetrieval:
     def __init__(self, 
                  scene, 
-                 split): 
+                 split,
+                 root_folder=DATA_ROOT): 
         super(SevenScenesRetrieval, self).__init__()
-        self.root_folder = DATA_ROOT
+        self.root_folder = root_folder
         self.color_file_format = 'frame-{:06d}.color.png'
         self.scene = scene
         self.split = split

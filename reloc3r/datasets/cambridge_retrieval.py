@@ -70,9 +70,10 @@ def read_frames_of_the_split(file_path):
 class CambridgeRetrieval:
     def __init__(self, 
                  scene, 
-                 split): 
+                 split,
+                 root_folder=DATA_ROOT): 
         super(CambridgeRetrieval, self).__init__()
-        self.root_folder = DATA_ROOT
+        self.root_folder = root_folder
         self.scene = scene
         self.split = split
         self.names_color = []

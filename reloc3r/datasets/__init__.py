@@ -18,10 +18,29 @@ from .megadepth_valid import MegaDepth_valid
 from .cambridge import CambridgeRelpose
 from .sevenscenes import SevenScenesRelpose
 
+import torch.distributed as dist
 
 def get_data_loader(dataset, batch_size, num_workers=8, shuffle=True, drop_last=True, pin_mem=True):
     import torch
-    from croco.utils.misc import get_world_size, get_rank
+    
+    def is_dist_avail_and_initialized():
+        if not dist.is_available():
+            return False
+        if not dist.is_initialized():
+            return False
+        return True
+    
+    def get_world_size():
+        if not is_dist_avail_and_initialized():
+            return 1
+        return dist.get_world_size()
+
+
+    def get_rank():
+        if not is_dist_avail_and_initialized():
+            return 0
+        return dist.get_rank()
+
 
     # pytorch dataset
     if isinstance(dataset, str):

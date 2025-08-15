@@ -94,10 +94,11 @@ class CambridgeRelpose(BaseStereoViewDataset):
                  pairs_info_file_mask=PREPROCESS_FOLDER + '/' + PAIR_INFO_FILE_MASK, 
                  db_step=1,
                  topk=10,
-                 pair_id=None, 
+                 pair_id=None,
+                 data_root=DATA_ROOT,
                  *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.root_folder = DATA_ROOT
+        self.root_folder = data_root
         self.scene = scene
         self.params_dict = ReadModelVisualSfM('{}/{}'.format(self.root_folder, self.scene))
         self.intrinsics = np.array([[1671.31, 0.0, 960.0], [0.0, 1671.31, 540.0], [0.0, 0.0, 1.0]], dtype=float)

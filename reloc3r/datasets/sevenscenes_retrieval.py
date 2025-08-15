@@ -56,9 +56,9 @@ class SevenScenesRetrieval:
     def __init__(self, 
                  scene, 
                  split,
-                 root_folder=DATA_ROOT): 
+                 data_root=DATA_ROOT): 
         super(SevenScenesRetrieval, self).__init__()
-        self.root_folder = root_folder
+        self.root_folder = data_root
         self.color_file_format = 'frame-{:06d}.color.png'
         self.scene = scene
         self.split = split

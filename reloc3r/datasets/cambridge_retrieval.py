@@ -71,9 +71,9 @@ class CambridgeRetrieval:
     def __init__(self, 
                  scene, 
                  split,
-                 root_folder=DATA_ROOT): 
+                 data_root=DATA_ROOT): 
         super(CambridgeRetrieval, self).__init__()
-        self.root_folder = root_folder
+        self.data_root = data_root
         self.scene = scene
         self.split = split
         self.names_color = []

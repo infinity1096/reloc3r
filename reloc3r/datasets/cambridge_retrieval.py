@@ -79,9 +79,9 @@ class CambridgeRetrieval:
         self.names_color = []
         names = None
         assert self.split in ['train', 'test']
-        names = read_frames_of_the_split('{}/{}/dataset_{}.txt'.format(self.root_folder, self.scene, self.split))
+        names = read_frames_of_the_split('{}/{}/dataset_{}.txt'.format(self.data_root, self.scene, self.split))
         for name in names:
-            self.names_color.append('{}/{}/{}'.format(self.root_folder, self.scene, name))
+            self.names_color.append('{}/{}/{}'.format(self.data_root, self.scene, name))
 
     def load_image(self, name, device):
         color = cv2.imread(name)
